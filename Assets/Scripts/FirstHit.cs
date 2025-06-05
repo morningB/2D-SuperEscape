@@ -7,7 +7,7 @@ public class FirstHit : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<>()
+            
         }
     }
 }
