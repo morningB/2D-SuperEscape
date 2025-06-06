@@ -27,9 +27,7 @@ public class HeroKnight : MonoBehaviour
     private float m_delayToIdle = 0.0f;
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
-
-
-    // Use this for initialization
+    private GameObject m_attackHitbox;
     void Start()
     {
         m_animator = GetComponent<Animator>();
@@ -39,6 +37,9 @@ public class HeroKnight : MonoBehaviour
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+
+        m_attackHitbox = transform.Find("AttackHitbox").gameObject;
+        m_attackHitbox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -194,11 +195,15 @@ public class HeroKnight : MonoBehaviour
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    public void AE_EnableAttackHitbox()
     {
-        if (other.CompareTag("Dead"))
-        {
-            SceneManager.LoadScene("SampleScene1");
-        }
+        m_attackHitbox.SetActive(true);
+        m_attackHitbox.GetComponent<AttackHitbox>().facingDirection = m_facingDirection;
     }
+
+    public void AE_DisableAttackHitbox()
+    {
+        m_attackHitbox.SetActive(false);
+    }
+
 }

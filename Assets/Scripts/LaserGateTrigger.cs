@@ -7,7 +7,7 @@ public class LaserGateTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerFallController>().LaunchToPosition();
+            other.GetComponent<PlayerFallController>().HitByLaser();
         }
     }
 

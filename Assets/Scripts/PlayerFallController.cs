@@ -3,72 +3,103 @@ using System.Collections;
 
 public class PlayerFallController : MonoBehaviour
 {
-   public Transform targetPosition;         // 이동할 목표 위치
-    public float moveDuration = 1.5f;        // 이동 시간
-    public float rotationSpeed = 720f;       // 초당 회전 각도
+    public Animator animator;
+    public Rigidbody2D rb;
+    public float knockUpForce = 5f;
+    public float knockForwardForce = 2f;
+    public bool isHit = false;
 
-    private bool isControlEnabled = true;
-    private bool isMovingToTarget = false;
+    public Transform fallEntryPoint; // 다리 중앙 위치
+    public Transform cameraTransform; // Main Camera 참조
 
-    private Animator animator;
-    public CameraController cameraController; // 드래그해서 연결
+    public Transform moveMapTargetPoint; // MoveMap 충돌 시 이동할 위치
+
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // 카메라와의 현재 거리 저장
+        if (cameraTransform == null)
+            cameraTransform = Camera.main.transform;
+
     }
 
-    void Update()
+    public void HitByLaser()
     {
-        if (!isControlEnabled)
-            return;
+        if (isHit) return;
+        isHit = true;
 
-        // 일반 이동 등 처리
+        animator.SetTrigger("Hurt");
+
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+
+        StartCoroutine(MoveToFallPoint());
     }
 
-    public void LaunchToPosition()
-    {
-        if (isMovingToTarget) return;
-
-        isMovingToTarget = true;
-        isControlEnabled = false;
-
-        // 낙하 애니메이션 실행
-        if (animator != null)
-            animator.Play("Fall");
-
-        StartCoroutine(RotateAndMoveToTarget());
-    }
-
-    private IEnumerator RotateAndMoveToTarget()
+    IEnumerator MoveToFallPoint()
     {
         Vector3 start = transform.position;
-        Vector3 end = targetPosition.position;
-        float time = 0f;
+        Vector3 target = fallEntryPoint.position;
 
-        // 카메라도 같이 이동
-        cameraController.MoveTo(end);
+        Vector3 cameraStart = cameraTransform.position;
+        Vector3 cameraTarget = new Vector3(target.x, target.y, cameraTransform.position.z);
 
-        while (time < moveDuration)
+        float duration = 2.0f;
+        float elapsed = 0f;
+
+        float totalRotation = 360f; // 또는 더 크게
+        float rotateSpeed = totalRotation / duration; // 초당 회전량
+
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+
+        while (elapsed < duration)
         {
-            float t = time / moveDuration;
-            transform.position = Vector3.Lerp(start, end, t);
+            float t = elapsed / duration;
 
-            // Z축 회전
-            transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
+            // 이동
+            transform.position = Vector3.Lerp(start, target, t);
+            cameraTransform.position = Vector3.Lerp(cameraStart, cameraTarget, t);
 
-            time += Time.deltaTime;
+            // 회전
+            transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // 최종 위치 보정
-        transform.position = end;
+        // 위치 보정
+        transform.position = target;
+        cameraTransform.position = cameraTarget;
         transform.rotation = Quaternion.identity;
 
-        // 상태 복구
-        isMovingToTarget = false;
-        isControlEnabled = true;
-
-        if (animator != null)
-            animator.Play("Idle"); // 착지 후 대기 상태 등
+        // 낙하 시작
+        rb.gravityScale = 1f;
+        rb.AddForce(Vector2.down * knockUpForce, ForceMode2D.Impulse);
     }
+
+
+    IEnumerator MoveToNewMap(Vector3 targetPosition)
+    {
+        // 1. 즉시 플레이어 위치 이동 (Z값 유지)
+        targetPosition.z = transform.position.z;
+        transform.position = targetPosition;
+
+        // 2. 즉시 카메라 위치 이동
+        Vector3 cameraTarget = new Vector3(targetPosition.x, targetPosition.y, cameraTransform.position.z);
+        cameraTransform.position = cameraTarget;
+
+        yield break;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("MoveMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveMapTargetPoint.position));
+        }
+    }
+
 }

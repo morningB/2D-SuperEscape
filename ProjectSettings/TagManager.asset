@@ -6,6 +6,9 @@ TagManager:
   tags:
   - laser
   - Dead
+  - MoveMap
+  - Ladder
+  - Enemy
   layers:
   - Default
   - TransparentFX

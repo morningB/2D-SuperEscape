@@ -2,33 +2,16 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public float moveDuration = 1.5f;
+//    public Transform target;          // 플레이어 위치
+//     public Vector3 offset = new Vector3(0f, 0f, -10f); // 카메라 깊이 보정
+//     public float followSpeed = 5f;
 
-    private bool isMoving = false;
-    private Vector3 startPos;
-    private Vector3 endPos;
-    private float timer;
+//     void LateUpdate()
+//     {
+//         if (target == null) return;
 
-    public void MoveTo(Vector3 destination)
-    {
-        startPos = transform.position;
-        endPos = new Vector3(destination.x, destination.y, transform.position.z);
-        timer = 0f;
-        isMoving = true;
-    }
-
-    void LateUpdate()
-    {
-        if (isMoving)
-        {
-            timer += Time.deltaTime;
-            float t = timer / moveDuration;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-
-            if (t >= 1f)
-                isMoving = false;
-        }
-    }
+//         Vector3 desiredPosition = target.position + offset;
+//         transform.position = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.deltaTime);
+//     }
 }
 
