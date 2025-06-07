@@ -7,28 +7,35 @@ public class EnemyPatrol : MonoBehaviour
     private Vector3 startPos;
     private bool movingRight = true;
     private SpriteRenderer spriteRenderer;
+     private Rigidbody2D rb;
     void Start()
     {
         startPos = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         GetComponent<Animator>().SetBool("bMove", true);
-        if (movingRight)
+
+        Vector2 direction = movingRight ? Vector2.right : Vector2.left;
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+        spriteRenderer.flipX = !movingRight;
+
+        // patrol 범위 초과 시 방향 반전
+        if (transform.position.x >= startPos.x + moveDistance)
+            movingRight = false;
+        else if (transform.position.x <= startPos.x - moveDistance)
+            movingRight = true;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-            spriteRenderer.flipX = false;
-            if (transform.position.x >= startPos.x + moveDistance)
-                movingRight = false;
-        }
-        else
-        {
-            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
-            spriteRenderer.flipX = true;
-            if (transform.position.x <= startPos.x - moveDistance)
-                movingRight = true;
+            movingRight = !movingRight;
         }
     }
 }
