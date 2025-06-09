@@ -13,7 +13,11 @@ public class PlayerFallController : MonoBehaviour
     public Transform cameraTransform; // Main Camera 참조
 
     public Transform moveMapTargetPoint; // MoveMap 충돌 시 이동할 위치
-
+    public Transform secCamera;
+    public Transform moveThirdMapTargetPoint; // ThirdMap 충돌 시 이동할 위치
+    public Transform thirdCamera;
+    public Transform moveFourthMapTargetPoint; // ThirdMap 충돌 시 이동할 위치
+    public Transform fourCamera;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -81,14 +85,14 @@ public class PlayerFallController : MonoBehaviour
     }
 
 
-    IEnumerator MoveToNewMap(Vector3 targetPosition)
+    IEnumerator MoveToNewMap(Vector3 targetPosition, Transform mapMovecameraTransform)
     {
         // 1. 즉시 플레이어 위치 이동 (Z값 유지)
         targetPosition.z = transform.position.z;
         transform.position = targetPosition;
 
         // 2. 즉시 카메라 위치 이동
-        Vector3 cameraTarget = new Vector3(targetPosition.x, targetPosition.y, cameraTransform.position.z);
+        Vector3 cameraTarget = new Vector3(mapMovecameraTransform.position.x, mapMovecameraTransform.position.y, cameraTransform.position.z);
         cameraTransform.position = cameraTarget;
 
         yield break;
@@ -98,8 +102,18 @@ public class PlayerFallController : MonoBehaviour
     {
         if (other.CompareTag("MoveMap"))
         {
-            StartCoroutine(MoveToNewMap(moveMapTargetPoint.position));
+            StartCoroutine(MoveToNewMap(moveMapTargetPoint.position, secCamera));
+        }
+
+        if (other.CompareTag("ThirdMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveThirdMapTargetPoint.position, thirdCamera));
+        }
+
+        if (other.CompareTag("FourthMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveFourthMapTargetPoint.position, fourCamera));
         }
     }
-
+    
 }

@@ -8,7 +8,7 @@ public class Fireball : MonoBehaviour
             // 데미지 처리, 이펙트 등
             Destroy(gameObject);
         }
-        else if (other.CompareTag("Ground") || other.CompareTag("Wall"))
+        else if (other.CompareTag("Wall"))
         {
             Destroy(gameObject); // 벽에 닿으면 사라짐
         }

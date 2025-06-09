@@ -9,12 +9,11 @@ public class AttackHitbox : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Rigidbody2D enemyRb = other.GetComponent<Rigidbody2D>();
-            if (enemyRb != null)
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                Vector2 forceDir = new Vector2(facingDirection * knockbackForce, 2f); // 위로 살짝 튕기게
-                enemyRb.linearVelocity = Vector2.zero;
-                enemyRb.AddForce(forceDir, ForceMode2D.Impulse);
+                Vector2 direction = new Vector2(facingDirection, 0f);
+                enemy.TakeDamage(1, direction * knockbackForce);
             }
         }
     }
