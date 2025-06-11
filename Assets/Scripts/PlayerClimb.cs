@@ -22,6 +22,7 @@ public class PlayerClimb : MonoBehaviour
         {
             isClimbing = true;
         }
+        GetComponent<Animator>().SetBool("isUp", isClimbing);
     }
 
     void FixedUpdate()
@@ -30,12 +31,12 @@ public class PlayerClimb : MonoBehaviour
         {
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, vertical * climbSpeed);
-            GetComponent<Animator>().SetBool("isUp", true);
+
         }
         else
         {
             rb.gravityScale = 1f;
-            GetComponent<Animator>().SetBool("isUp", false);
+
         }
     }
 

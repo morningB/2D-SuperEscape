@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ecca11dfa787048e381db7b4ca9c9bd0
+guid: fe347acda5d60ba40986b0cf416cd40d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -106,29 +106,16 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hero_Labber_0
+      name: knight_climb_combined_original_size_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -138,19 +125,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 160ba29e7480e46b2bda8f995225ab24
-      internalID: 872522613
+      spriteID: de8b1630168a6c24b8106b7d038fabe5
+      internalID: 827133655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Labber_1
+      name: knight_climb_combined_original_size_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 0
-        width: 32
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -160,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14de95027e0eb479c8aed9dc3ec302e8
-      internalID: -1569083083
+      spriteID: 794294fcc58a7fb438e163b406283050
+      internalID: 353613320
       vertices: []
       indices: 
       edges: []
@@ -170,7 +157,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 02af448d124a54261a994444825e7ec4
+    spriteID: 9ac6ef2cae672b04789bf06810f56822
     internalID: 0
     vertices: []
     indices: 
@@ -180,8 +167,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hero_Labber_0: 872522613
-      Hero_Labber_1: -1569083083
+      knight_climb_combined_original_size_0: 827133655
+      knight_climb_combined_original_size_1: 353613320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
