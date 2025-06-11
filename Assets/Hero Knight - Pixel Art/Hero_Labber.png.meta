@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0e5f42247de564868b9f729204aa9619
+guid: ecca11dfa787048e381db7b4ca9c9bd0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,8 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "ChatGPT Image 2025\u1102\u1167\u11AB 6\u110B\u116F\u11AF 11\u110B\u1175\u11AF
-        \u110B\u1169\u1112\u116E 01_16_23 (1)_0"
+      name: Hero_Labber_0
       rect:
         serializedVersion: 2
         x: 0
@@ -139,15 +138,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 201e194a527fb4ec4a43b8bb99e7ce2b
-      internalID: -633408206
+      spriteID: 160ba29e7480e46b2bda8f995225ab24
+      internalID: 872522613
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "ChatGPT Image 2025\u1102\u1167\u11AB 6\u110B\u116F\u11AF 11\u110B\u1175\u11AF
-        \u110B\u1169\u1112\u116E 01_16_23 (1)_1"
+      name: Hero_Labber_1
       rect:
         serializedVersion: 2
         x: 32
@@ -162,8 +160,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ced408fa02bbb4ab6993eebb30954c91
-      internalID: 1472692849
+      spriteID: 14de95027e0eb479c8aed9dc3ec302e8
+      internalID: -1569083083
       vertices: []
       indices: 
       edges: []
@@ -172,7 +170,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7b3e9a25c543a4f648212d3a5ef68cc6
+    spriteID: 02af448d124a54261a994444825e7ec4
     internalID: 0
     vertices: []
     indices: 
@@ -182,8 +180,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "ChatGPT Image 2025\u1102\u1167\u11AB 6\u110B\u116F\u11AF 11\u110B\u1175\u11AF \u110B\u1169\u1112\u116E 01_16_23 (1)_0": -633408206
-      "ChatGPT Image 2025\u1102\u1167\u11AB 6\u110B\u116F\u11AF 11\u110B\u1175\u11AF \u110B\u1169\u1112\u116E 01_16_23 (1)_1": 1472692849
+      Hero_Labber_0: 872522613
+      Hero_Labber_1: -1569083083
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
