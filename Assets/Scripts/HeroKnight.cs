@@ -21,6 +21,7 @@ public class HeroKnight : MonoBehaviour
     private bool m_isWallSliding = false;
     private bool m_grounded = false;
     private bool m_rolling = false;
+    public bool isBlocking { get; private set; } = false;
     public int m_facingDirection = 1;
     private int m_currentAttack = 0;
     private float m_timeSinceAttack = 0.0f;
@@ -78,23 +79,30 @@ public class HeroKnight : MonoBehaviour
 
         // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
-
+        int prevFacing = m_facingDirection;
+        Vector3 hitboxDefaultPosition = new Vector3(0.5f, 0f, 0f);
         // Swap direction of sprite depending on walk direction
         if (inputX > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
-            attackHitbox.facingDirection = m_facingDirection;
-            attackHitbox.transform.localPosition = new Vector3(Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, 0);
+
         }
         else if (inputX < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
-            attackHitbox.facingDirection = m_facingDirection;
-            attackHitbox.transform.localPosition = new Vector3(-Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, 0);
         }
 
+        if (m_facingDirection != prevFacing)
+        {
+            attackHitbox.facingDirection = m_facingDirection;
+
+            if (m_facingDirection == 1)
+                attackHitbox.transform.localPosition = hitboxDefaultPosition;
+            else
+                attackHitbox.transform.localPosition = new Vector3(-hitboxDefaultPosition.x - 1.5f, hitboxDefaultPosition.y, 0);
+        }
         // Move
         if (!m_rolling)
             m_body2d.linearVelocity = new Vector2(inputX * m_speed, m_body2d.linearVelocity.y);
@@ -108,7 +116,7 @@ public class HeroKnight : MonoBehaviour
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
         //Death
-        if (Input.GetKeyDown("e") && !m_rolling)
+       if (Input.GetKeyDown("e") && !m_rolling)
         {
             m_animator.SetBool("noBlood", m_noBlood);
             m_animator.SetTrigger("Death");
@@ -117,9 +125,10 @@ public class HeroKnight : MonoBehaviour
         //Hurt
         else if (Input.GetKeyDown("q") && !m_rolling)
             m_animator.SetTrigger("Hurt");
+   
 
         //Attack
-        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
+        if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
         {
             m_currentAttack++;
 
@@ -143,10 +152,14 @@ public class HeroKnight : MonoBehaviour
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
+            isBlocking = true; // ← 방어 시작
         }
 
         else if (Input.GetMouseButtonUp(1))
+        {
             m_animator.SetBool("IdleBlock", false);
+            isBlocking = false; // ← 방어 해제
+        }
 
         // Roll
         else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
@@ -207,7 +220,7 @@ public class HeroKnight : MonoBehaviour
     public void AE_EnableAttackHitbox()
     {
         m_attackHitbox.SetActive(true);
-        m_attackHitbox.GetComponent<AttackHitbox>().facingDirection = m_facingDirection;
+        //m_attackHitbox.GetComponent<AttackHitbox>().facingDirection = m_facingDirection;
     }
 
     public void AE_DisableAttackHitbox()
