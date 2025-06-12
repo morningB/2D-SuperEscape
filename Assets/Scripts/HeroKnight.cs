@@ -21,17 +21,20 @@ public class HeroKnight : MonoBehaviour
     private bool m_isWallSliding = false;
     private bool m_grounded = false;
     private bool m_rolling = false;
-    private int m_facingDirection = 1;
+    public int m_facingDirection = 1;
     private int m_currentAttack = 0;
     private float m_timeSinceAttack = 0.0f;
     private float m_delayToIdle = 0.0f;
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
     private GameObject m_attackHitbox;
+    public AttackHitbox attackHitbox;
+
     void Start()
     {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
+
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
@@ -50,7 +53,10 @@ public class HeroKnight : MonoBehaviour
 
         // Increase timer that checks roll duration
         if (m_rolling)
+        {
             m_rollCurrentTime += Time.deltaTime;
+            // 구르는 동안 무적
+        }
 
         // Disable rolling if timer extends duration
         if (m_rollCurrentTime > m_rollDuration)
@@ -78,12 +84,15 @@ public class HeroKnight : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
+            attackHitbox.facingDirection = m_facingDirection;
+            attackHitbox.transform.localPosition = new Vector3(Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, 0);
         }
-
         else if (inputX < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
+            attackHitbox.facingDirection = m_facingDirection;
+            attackHitbox.transform.localPosition = new Vector3(-Mathf.Abs(attackHitbox.transform.localPosition.x), attackHitbox.transform.localPosition.y, 0);
         }
 
         // Move
