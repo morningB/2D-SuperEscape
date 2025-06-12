@@ -1,0 +1,30 @@
+아주 중요한 부분을 짚었어. Unity의 Trigger 충돌 감지는 조건이 충족되지 않으면 아예 OnTriggerEnter2D()가 발동하지 않거나, 예기치 않게 양쪽 모두에서 실행되는 현상이 발생할 수 있어.
+
+✅ 핵심 원리: Trigger 충돌의 조건
+Unity에서 OnTriggerEnter2D()가 정상적으로 작동하려면, Trigger Collider가 있는 두 오브젝트 중 최소 하나는 Rigidbody2D를 가지고 있어야 함.
+
+예시 조합:
+오브젝트 A	오브젝트 B	작동 여부
+Collider + Rigidbody	Collider + Trigger	✅ 작동함
+Trigger + Rigidbody	Collider	✅ 작동함
+Trigger	Collider	❌ 작동안함
+Trigger	Trigger	❌ 작동안함
+
+✅ 왜 둘 다 피해를 받는가?
+지금 네 상황은 다음과 같아 보임:
+
+Player 오브젝트: Collider + Rigidbody 있음 (PlayerHealth가 달려 있음)
+
+AttackHitbox: Trigger Collider만 있고 Rigidbody2D 없음
+
+Enemy: Collider 있음, Rigidbody 있을 수도 있고 없을 수도 있음
+
+이 경우 발생하는 현상:
+AttackHitbox가 Enemy와 충돌했을 때,
+
+AttackHitbox는 Trigger지만 Rigidbody가 없으므로 충돌 이벤트가 명확하게 관리되지 않음
+
+Unity가 충돌의 주체를 일관되게 판단하지 못하고, Player의 OnTriggerEnter2D()까지 동시에 작동하게 만듦
+
+즉, Trigger 충돌이 정해진 물리 조건 없이 발생하다 보니, Player도 동시에 대미지를 받는 예외 상황이 생기는 거야.
+
