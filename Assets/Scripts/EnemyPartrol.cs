@@ -20,7 +20,7 @@ public class EnemyPatrol : MonoBehaviour
         GetComponent<Animator>().SetBool("bMove", true);
 
         Vector2 direction = movingRight ? Vector2.right : Vector2.left;
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
+        transform.Translate(direction* moveSpeed * Time.deltaTime);
 
         spriteRenderer.flipX = !movingRight;
 
