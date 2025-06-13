@@ -1,38 +1,34 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))] // Rigidbody2D가 필수 컴포넌트임을 명시
 public class EnemyVertical : MonoBehaviour
 {
-    public float moveSpeed = 2f;             // 이동 속도
-    public float moveDistance = 3f;          // 이동 거리
-    private Vector3 startPos;
-    private bool movingRight = true;
-    private SpriteRenderer spriteRenderer;
-    void Start()
-    {
-        startPos = transform.position;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    public float moveSpeed = 2f;    // 이동 속도
+    private Rigidbody2D rb;         // 물리 기반 이동을 위한 Rigidbody2D
+    private float moveDirection = 1f; // 이동 방향 (1: 위, -1: 아래)
 
+    void Awake()
+    {
+        // 컴포넌트를 미리 캐싱하여 성능 향상
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // 물리 업데이트는 FixedUpdate에서 처리하는 것이 더 안정적입니다.
+    void FixedUpdate()
     {
-        Vector2 direction = movingRight ? Vector2.up : Vector2.down;
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
-
-        spriteRenderer.flipX = !movingRight;
-
-        // patrol 범위 초과 시 방향 반전
-        if (transform.position.y >= startPos.y + moveDistance)
-            movingRight = false;
-        else if (transform.position.y <= startPos.y - moveDistance)
-            movingRight = true;
+        // Y축으로만 속도를 가합니다.
+        rb.linearVelocity = new Vector2(0, moveDirection * moveSpeed);
     }
+
+    // 단단한 오브젝트와 충돌했을 때 호출되는 함수
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // 충돌한 오브젝트의 태그가 "Wall"인지 확인
         if (collision.gameObject.CompareTag("Wall"))
         {
-            movingRight = !movingRight;
+            // 방향을 반대로 바꿉니다.
+            moveDirection *= -1;
+            // Debug.Log("벽과 충돌하여 방향을 전환합니다.");
         }
     }
 }
