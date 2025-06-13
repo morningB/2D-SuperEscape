@@ -6,7 +6,7 @@ public class EnemyVertical : MonoBehaviour
     public float moveSpeed = 2f;    // 이동 속도
     private Rigidbody2D rb;         // 물리 기반 이동을 위한 Rigidbody2D
     private float moveDirection = 1f; // 이동 방향 (1: 위, -1: 아래)
-
+    
     void Awake()
     {
         // 컴포넌트를 미리 캐싱하여 성능 향상
