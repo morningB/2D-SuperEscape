@@ -16,8 +16,16 @@ public class PlayerFallController : MonoBehaviour
     public Transform secCamera;
     public Transform moveThirdMapTargetPoint; // ThirdMap 충돌 시 이동할 위치
     public Transform thirdCamera;
-    public Transform moveFourthMapTargetPoint; // ThirdMap 충돌 시 이동할 위치
+    public Transform moveFourthMapTargetPoint; // FourdMap 충돌 시 이동할 위치
     public Transform fourCamera;
+    public Transform moveFivehMapTargetPoint; // FivedMap 충돌 시 이동할 위치
+    public Transform fiveCamera;
+    public Transform moveSixMapTargetPoint; // SixMap 충돌 시 이동할 위치
+    public Transform sixCamera;
+    public Transform moveSevenMapTargetPoint; // SevenMap 충돌 시 이동할 위치
+    public Transform sevenCamera;
+    public Transform moveLastMapTargetPoint; // LastdMap 충돌 시 이동할 위치
+    public Transform lastCamera;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -113,6 +121,26 @@ public class PlayerFallController : MonoBehaviour
         if (other.CompareTag("FourthMap"))
         {
             StartCoroutine(MoveToNewMap(moveFourthMapTargetPoint.position, fourCamera));
+        }
+
+        if (other.CompareTag("FivethMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveFivehMapTargetPoint.position, fiveCamera));
+        }
+
+        if (other.CompareTag("SixMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveSixMapTargetPoint.position, sixCamera));
+        }
+
+        if (other.CompareTag("SevenMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveSevenMapTargetPoint.position, sevenCamera));
+        }
+
+        if (other.CompareTag("LastMap"))
+        {
+            StartCoroutine(MoveToNewMap(moveLastMapTargetPoint.position, lastCamera));
         }
     }
     

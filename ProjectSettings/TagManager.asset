@@ -15,6 +15,10 @@ TagManager:
   - Fireball
   - PlayerAttack
   - Item
+  - FivethMap
+  - SixMap
+  - SevenMap
+  - LastMap
   layers:
   - Default
   - TransparentFX
