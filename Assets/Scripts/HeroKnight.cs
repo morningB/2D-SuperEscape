@@ -30,7 +30,7 @@ public class HeroKnight : MonoBehaviour
     private float m_rollCurrentTime;
     private GameObject m_attackHitbox;
     public AttackHitbox attackHitbox;
-
+    public AudioClip attackClip;
     void Start()
     {
         m_animator = GetComponent<Animator>();
@@ -131,7 +131,7 @@ public class HeroKnight : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
         {
             m_currentAttack++;
-
+            GetComponent<AudioSource>().PlayOneShot(attackClip);
             // Loop back to one after third attack
             if (m_currentAttack > 3)
                 m_currentAttack = 1;
