@@ -19,6 +19,8 @@ TagManager:
   - SixMap
   - SevenMap
   - LastMap
+  - Treasure
+  - Crown
   layers:
   - Default
   - TransparentFX
@@ -29,7 +31,7 @@ TagManager:
   - Player
   - PlayerAttack
   - groundLayer
-  - 
+  - Minimap
   - 
   - 
   - 
