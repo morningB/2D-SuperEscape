@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class PlayerFallController : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class PlayerFallController : MonoBehaviour
     public float knockUpForce = 5f;
     public float knockForwardForce = 2f;
     public bool isHit = false;
-
+    public GameObject ui;
+    public GameObject titleImage;
     public Transform fallEntryPoint; // 다리 중앙 위치
     public Transform cameraTransform; // Main Camera 참조
 
@@ -30,7 +32,8 @@ public class PlayerFallController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
+        ui.SetActive(false);
+        titleImage.SetActive(true);
         // 카메라와의 현재 거리 저장
         if (cameraTransform == null)
             cameraTransform = Camera.main.transform;
@@ -41,7 +44,7 @@ public class PlayerFallController : MonoBehaviour
     {
         if (isHit) return;
         isHit = true;
-
+        titleImage.SetActive(false);
         animator.SetTrigger("Hurt");
 
         rb.linearVelocity = Vector2.zero;
@@ -110,6 +113,7 @@ public class PlayerFallController : MonoBehaviour
     {
         if (other.CompareTag("MoveMap"))
         {
+            ui.SetActive(true);
             StartCoroutine(MoveToNewMap(moveMapTargetPoint.position, secCamera));
         }
 

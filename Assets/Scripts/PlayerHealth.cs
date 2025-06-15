@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,21 +14,38 @@ public class PlayerHealth : MonoBehaviour
     private Animator animator;
     private bool isInvulnerable = false;
     public float invulnerableTime = 1f;
+    public GameObject fireballExplosionPrefab;
+    public GameObject gameover;
     void Start()
     {
         currentHealth = playerMaxHealth;
         animator = GetComponent<Animator>();
+        gameover.SetActive(false);
         UpdateHeartsUI();
-    }  
+    }
 
     void OnTriggerEnter2D(Collider2D other)
-{
-    // 플레이어가 Fireball이나 Enemy 본체에 직접 맞았을 때만 처리
-    if (other.CompareTag("Enemy") || other.CompareTag("Fireball"))
     {
-        TakeDamage(1);
+        // 플레이어가 Fireball이나 Enemy 본체에 직접 맞았을 때만 처리
+        if (other.CompareTag("Enemy"))
+        {
+            TakeDamage(1);
+        }
+
+        if (other.CompareTag("Fireball"))
+        {
+            if (fireballExplosionPrefab != null)
+            {
+                Instantiate(fireballExplosionPrefab, transform.position, Quaternion.identity);
+            }
+
+            TakeDamage(1);
+
+            // 자식 오브젝트에 충돌했을 경우도 삭제하도록 보장
+            Destroy(other.transform.root.gameObject);
+        }
+
     }
-}
 
 
     void TakeDamage(int damage)
@@ -55,6 +73,7 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.Log("플레이어 사망!");
             animator.SetTrigger("Death");
+            gameover.SetActive(true);
         }
         else
         {
