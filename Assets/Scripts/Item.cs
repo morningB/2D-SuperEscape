@@ -13,8 +13,7 @@ public class Item : MonoBehaviour
         {
             Debug.Log("아이템획득");
             count++;
-            if(health.currentHealth < health.playerMaxHealth)
-                health.currentHealth++;
+            health.Heal(1);
             GetComponent<AudioSource>().PlayOneShot(getItemAudio);
             itemGetText.text = count + " / 6";
             Destroy(collision.gameObject);

@@ -123,5 +123,14 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+    public void Heal(int amount)
+    {
+        if (currentHealth >= playerMaxHealth)
+            return;
+
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, playerMaxHealth);
+        UpdateHeartsUI();
+    }
 
 }
