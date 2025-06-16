@@ -21,6 +21,7 @@ TagManager:
   - LastMap
   - Treasure
   - Crown
+  - magma
   layers:
   - Default
   - TransparentFX
