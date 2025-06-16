@@ -17,6 +17,8 @@ public class PlayerHealth : MonoBehaviour
     public float invulnerableTime = 1f;
     public GameObject fireballExplosionPrefab;
     public GameObject gameover;
+    public AudioClip damagedAudio;
+    public AudioClip deathAudio;
     void Start()
     {
         currentHealth = playerMaxHealth;
@@ -27,10 +29,12 @@ public class PlayerHealth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+
         // 플레이어가 Fireball이나 Enemy 본체에 직접 맞았을 때만 처리
         if (other.CompareTag("Enemy"))
         {
             TakeDamage(1);
+            GetComponent<AudioSource>().PlayOneShot(damagedAudio);
         }
 
         if (other.CompareTag("Fireball"))
@@ -38,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
 
             TakeDamage(1);
             // 자식 오브젝트에 충돌했을 경우도 삭제하도록 보장
+            GetComponent<AudioSource>().PlayOneShot(damagedAudio);
             Destroy(other.transform.root.gameObject);
         }
         if (other.CompareTag("magma"))
@@ -72,6 +77,10 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("플레이어 사망!");
+            GetComponent<AudioSource>().PlayOneShot(deathAudio);
+            GetComponent<HeroKnight>().enabled = false;
+            GetComponent<BoxCollider2D>().enabled = false;
+
             animator.SetTrigger("Death");
             gameover.SetActive(true);
         }

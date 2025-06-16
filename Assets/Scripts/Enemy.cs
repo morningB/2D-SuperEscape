@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     public Rigidbody2D rb;
     public int enemyHealth = 3;
+    public AudioClip audioClip;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
         rb.AddForce(knockback, ForceMode2D.Impulse);
         // 체력 감소, 피격 애니메이션, 무적 처리 등 추가 가능
         enemyHealth -= damage;
+        GetComponent<AudioSource>().PlayOneShot(audioClip);
         Debug.Log("적이 피해 입음" + damage);
     }
 }
