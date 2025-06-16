@@ -23,7 +23,7 @@ public class EnemyPatrol : MonoBehaviour
         transform.Translate(direction* moveSpeed * Time.deltaTime);
 
         spriteRenderer.flipX = !movingRight;
-
+        
         // patrol 범위 초과 시 방향 반전
         if (transform.position.x >= startPos.x + moveDistance)
             movingRight = false;
@@ -36,6 +36,16 @@ public class EnemyPatrol : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             movingRight = !movingRight;
+            Debug.Log("벽 충돌");
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            movingRight = !movingRight;
+            Debug.Log("벽 충돌");
         }
     }
 }
