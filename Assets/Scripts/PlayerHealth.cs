@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Profiling;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,15 +35,14 @@ public class PlayerHealth : MonoBehaviour
 
         if (other.CompareTag("Fireball"))
         {
-            if (fireballExplosionPrefab != null)
-            {
-                Instantiate(fireballExplosionPrefab, transform.position, Quaternion.identity);
-            }
 
             TakeDamage(1);
-
             // 자식 오브젝트에 충돌했을 경우도 삭제하도록 보장
             Destroy(other.transform.root.gameObject);
+        }
+        if (other.CompareTag("magma"))
+        {
+            TakeDamage(playerMaxHealth);
         }
 
     }

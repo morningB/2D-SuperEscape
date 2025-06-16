@@ -146,6 +146,7 @@ public class PlayerFallController : MonoBehaviour
         {
             StartCoroutine(MoveToNewMap(moveLastMapTargetPoint.position, lastCamera));
         }
+
     }
     
 }
