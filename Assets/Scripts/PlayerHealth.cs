@@ -80,7 +80,7 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(deathAudio);
             GetComponent<HeroKnight>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;
-
+            GetComponent<Rigidbody2D>().gravityScale = 0;
             animator.SetTrigger("Death");
             gameover.SetActive(true);
         }
