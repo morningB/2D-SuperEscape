@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class HeroKnight : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class HeroKnight : MonoBehaviour
     private GameObject m_attackHitbox;
     public AttackHitbox attackHitbox;
     public AudioClip attackClip;
+    public Joystick joy;
     void Start()
     {
         m_animator = GetComponent<Animator>();
@@ -78,7 +80,9 @@ public class HeroKnight : MonoBehaviour
         }
 
         // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
+        //float inputX = Input.GetAxis("Horizontal");
+        float inputX = joy.Horizontal;
+
         int prevFacing = m_facingDirection;
         Vector3 hitboxDefaultPosition = new Vector3(0.5f, 0f, 0f);
         // Swap direction of sprite depending on walk direction
@@ -116,7 +120,7 @@ public class HeroKnight : MonoBehaviour
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
         //Death
-       if (Input.GetKeyDown("e") && !m_rolling)
+        if (Input.GetKeyDown("e") && !m_rolling)
         {
             m_animator.SetBool("noBlood", m_noBlood);
             m_animator.SetTrigger("Death");
@@ -125,7 +129,7 @@ public class HeroKnight : MonoBehaviour
         //Hurt
         else if (Input.GetKeyDown("q") && !m_rolling)
             m_animator.SetTrigger("Hurt");
-   
+
 
         //Attack
         if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
@@ -226,6 +230,45 @@ public class HeroKnight : MonoBehaviour
     public void AE_DisableAttackHitbox()
     {
         m_attackHitbox.SetActive(false);
+    }
+    public void OnAttackButtonPressed()
+    {
+        if (m_timeSinceAttack > 0.25f && !m_rolling)
+        {
+            m_currentAttack++;
+            GetComponent<AudioSource>().PlayOneShot(attackClip);
+
+            if (m_currentAttack > 3) m_currentAttack = 1;
+            if (m_timeSinceAttack > 1.0f) m_currentAttack = 1;
+
+            m_animator.SetTrigger("Attack" + m_currentAttack);
+            m_timeSinceAttack = 0.0f;
+        }
+    }
+
+    public void OnBlockButtonDown()
+    {
+        m_animator.SetTrigger("Block");
+        m_animator.SetBool("IdleBlock", true);
+        isBlocking = true;
+    }
+
+    public void OnBlockButtonUp()
+    {
+        m_animator.SetBool("IdleBlock", false);
+        isBlocking = false;
+    }
+
+    public void OnJumpButtonPressed()
+    {
+        if (m_grounded && !m_rolling)
+        {
+            m_animator.SetTrigger("Jump");
+            m_grounded = false;
+            m_animator.SetBool("Grounded", false);
+            m_body2d.linearVelocity = new Vector2(m_body2d.linearVelocity.x, m_jumpForce);
+            m_groundSensor.Disable(0.2f);
+        }
     }
 
 }
